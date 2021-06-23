@@ -1,3 +1,6 @@
+### 1.6.0 (2021-Jun-23)
+Downgraded jdk to 11
+
 ### 1.5.0 (2021-Jan-28)
 Upgraded gradle to 6.8
 Upgraded jdk to 15
