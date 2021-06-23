@@ -1,12 +1,14 @@
 # docker-openjdk-dojo
+This is a fork of [Dojo](https://github.com/kudulab/dojo) docker image with Java build tools. 
+Repurposed for the NHS needs to use LTS version of Java. 
 
-A [Dojo](https://github.com/kudulab/dojo) docker image with Java build tools. Based on `openjdk:15-jdk-buster`.
+This docker image is based on `openjdk:11-jdk-buster`.
 
 ## Specification
 This image has installed:
- * openjdk version 15
+ * openjdk version 11
  * OpenJDK Runtime Environment
- * Gradle 6.8.1
+ * Gradle
  * Apache Maven 3.3.9
 
 ## Usage
