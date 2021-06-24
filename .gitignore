@@ -16,5 +16,4 @@ bats-assert/
 *.png
 docker-ops
 releaser
-Dojofile.to_be_tested
 Dojofile.example

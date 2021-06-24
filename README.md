@@ -29,7 +29,7 @@ mv /tmp/dojo /usr/bin/dojo
 ```
 2. Provide a Dojofile:
 ```
-DOJO_DOCKER_IMAGE="kudulab/openjdk-dojo:1.4.0"
+DOJO_DOCKER_IMAGE="nhsdev/openjdk-dojo:<commit>"
 ```
 3. Run, example commands:
 ```bash
