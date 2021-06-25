@@ -1,14 +1,15 @@
 # docker-openjdk-dojo
 This is a fork of [Dojo](https://github.com/kudulab/dojo) docker image with Java build tools. 
-Repurposed for the NHS needs to use LTS version of Java. 
+Repurposed for the NHSD needs to use LTS version of Java. 
 
 This docker image is based on `openjdk:11-jdk-buster`.
+Images are published to dockerhub as `nhsdev/openjdk-dojo`.
 
 ## Specification
 This image has installed:
  * openjdk version 11
  * OpenJDK Runtime Environment
- * Gradle
+ * Gradle 6.8
  * Apache Maven 3.3.9
 
 ## Usage
@@ -31,7 +32,9 @@ mv /tmp/dojo /usr/bin/dojo
 ```
 DOJO_DOCKER_IMAGE="nhsdev/openjdk-dojo:<commit>"
 ```
-3. Run, example commands:
+3. Create and enter the container by running dojo at the root of project.
+   
+Run, example commands:
 ```bash
 dojo java -version
 dojo gradle --version
@@ -48,11 +51,11 @@ For a real-world usage see these projects:
 
 These files are used inside the docker image:
 
-1. `~/.ssh/` -- is copied from host to dojo's home `~/.ssh`
+1. `~/.ssh/` -- is copied from host to the dojo's home `~/.ssh`
 1. `~/.ssh/config` -- will be generated on docker container start. SSH client is configured to ignore known ssh hosts.
 2. `~/.gitconfig` -- if exists locally, will be copied
 3. `~/.profile` -- will be generated on docker container start, in
-  order to ensure current directory is `/dojo/work`.
+  order to ensure the current directory is `/dojo/work`.
 
 ## License
 
