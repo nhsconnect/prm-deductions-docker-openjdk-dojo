@@ -9,7 +9,7 @@ Images are published to dockerhub as `nhsdev/openjdk-dojo`.
 This image has installed:
  * openjdk version 11
  * OpenJDK Runtime Environment
- * Gradle 6.8
+ * Gradle 7.2
  * Apache Maven 3.3.9
 
 ## Usage

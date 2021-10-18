@@ -1,3 +1,6 @@
+### 2021-Oct-18
+Upgraded gradle to 7.2
+
 ### 2021-Jun-23
 Downgraded jdk to 11
 
