@@ -14,7 +14,7 @@ RUN apt-get update && \
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends nano
 
-ENV GRADLE_VERSION 7.2
+ENV GRADLE_VERSION 7.3.2
 ENV GRADLE_HOME /usr/lib/gradle/gradle-${GRADLE_VERSION}
 RUN cd /tmp &&\
   wget https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip &&\

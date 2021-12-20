@@ -1,3 +1,6 @@
+### 2021-Dec-20
+Upgraded gradle to 7.3.2
+
 ### 2021-Oct-18
 Upgraded gradle to 7.2
 
