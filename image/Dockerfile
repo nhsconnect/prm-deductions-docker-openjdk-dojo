@@ -1,7 +1,12 @@
 FROM openjdk:11-jdk-buster
 
-ENV TINI_VERSION v0.18.0
-ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
+ENV TINI_VERSION v0.19.0
+ARG TARGETPLATFORM
+RUN case ${TARGETPLATFORM} in \
+         "linux/amd64")  TINI_ARCH=amd64  ;; \
+         "linux/arm64")  TINI_ARCH=arm64  ;; \
+    esac \
+ && wget -q https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini-static-${TINI_ARCH} -O /tini
 
 # Install common Dojo scripts
 ENV DOJO_VERSION=0.10.3

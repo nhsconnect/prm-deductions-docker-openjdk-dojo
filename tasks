@@ -15,6 +15,7 @@ source $DOCKER_OPS_FILE
 image_name="nhsdev/openjdk-dojo"
 image_registry="dockerhub"
 image_dir="./image"
+image_platform="linux/arm64/v8,linux/amd64"
 
 function get_aws_ssm_secret {
   secret_id=$1
@@ -34,6 +35,42 @@ function docker_login {
     echo "$DOCKERHUB_PASSWORD" | docker login --username nhstomzo --password-stdin
 }
 
+function create_docker_builder() {
+    local builder_name=arch_builder
+    docker buildx &> /dev/null || { echo 'Please install and enable buildx - https://docs.docker.com/buildx/working-with-buildx/ ' ; exit 1; }
+
+    if docker buildx inspect arch_builder --bootstrap &> /dev/null
+    then
+      echo "Builder already exists using arch_builder"
+      docker buildx use ${builder_name}
+    else
+      echo "Creating new multi arch builder"
+      docker buildx create --name ${builder_name} --use
+    fi
+}
+
+function build_multi_arch() {
+    local image_dir=${1?image_dir not set}
+    local image_short_name=${2?image_short_name not set}
+    local image_tag=${3:-}
+    local image_registry=${4:-dockerhub}
+    local image_platform=${5:-linux/arm64/v8,linux/amd64}
+    local builder_name=arch_builder_${image_tag}
+
+    create_docker_builder ${builder_name}
+
+    docker_ops::log_info "image_dir set to: ${image_dir}"
+    docker_ops::log_info "image_short_name set to: ${image_short_name}"
+    docker_ops::log_info "imagerc_filename set to: ${imagerc_filename}"
+    initial_dir="$(pwd)"
+    cd "${image_dir}"
+    docker_ops::log_info "image_tag set to: ${image_tag}"
+    local image_url="$(docker_ops::make_image_url $image_short_name $image_tag $image_registry)"
+
+    set -x -e
+    docker buildx build --platform "${image_platform}"  -t "${image_url}" --push .
+}
+
 command="$1"
 set +u
 case "${command}" in
@@ -41,6 +78,13 @@ case "${command}" in
       image_tag=$(git rev-parse HEAD)
       # build image and push to a test registry
       docker_ops::docker_build "${image_dir}" "${imagerc_filename}" "${image_name}" "${image_tag}" "${image_registry}"
+      ;;
+  build_multi_arch)
+      DOCKERHUB_PASSWORD=$(get_aws_ssm_secret "/repo/prod/user-input/gocd-dockerhub-password")
+      docker_login
+      image_tag=$(git rev-parse HEAD)
+      # build image and push to registry
+      build_multi_arch ${image_dir} "${image_name}" "${image_tag}" "${image_registry}" "${image_platform}"
       ;;
   build)
       DOCKERHUB_PASSWORD=$(get_aws_ssm_secret "/repo/prod/user-input/gocd-dockerhub-password")
