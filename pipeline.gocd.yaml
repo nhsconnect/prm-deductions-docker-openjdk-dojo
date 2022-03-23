@@ -24,4 +24,4 @@ pipelines:
                     command: /bin/bash
                     arguments:
                       - -c
-                      - ./tasks build
+                      - ./tasks build_multi_arch
