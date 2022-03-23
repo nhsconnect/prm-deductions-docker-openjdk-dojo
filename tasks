@@ -15,7 +15,7 @@ source $DOCKER_OPS_FILE
 image_name="nhsdev/openjdk-dojo"
 image_registry="dockerhub"
 image_dir="./image"
-image_platform="linux/arm64,linux/amd64"
+image_platform="linux/arm64/v8,linux/amd64"
 
 function get_aws_ssm_secret {
   secret_id=$1
@@ -47,6 +47,7 @@ function create_docker_builder() {
       echo "Creating new multi arch builder"
       docker buildx create --name ${builder_name} --use
     fi
+    docker buildx ls
 }
 
 function build_multi_arch() {
