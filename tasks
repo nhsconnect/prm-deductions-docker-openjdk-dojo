@@ -45,7 +45,7 @@ function create_docker_builder() {
       docker buildx use ${builder_name}
     else
       echo "Creating new multi arch builder"
-      docker buildx create --name ${builder_name} --use
+      docker buildx create --name ${builder_name} --platform linux/amd64,linux/arm64/v8 --use
     fi
     docker buildx ls
 }
