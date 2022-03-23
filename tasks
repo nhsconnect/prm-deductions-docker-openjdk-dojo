@@ -39,9 +39,15 @@ function create_docker_builder() {
     local builder_name=arch_builder
     docker buildx &> /dev/null || { echo 'Please install and enable buildx - https://docs.docker.com/buildx/working-with-buildx/ ' ; exit 1; }
 
+    # Allowing linux machines to build arm64
+    docker run --rm --privileged multiarch/qemu-user-static --reset -p yes || true
+
+    if docker buildx inspect arch_builder --bootstrap &> /dev/null
+    then
+      echo "Builder already exists removing previous builder"
+      docker buildx rm ${builder_name}
+    fi
     echo "Creating new multi arch builder"
-    docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-    docker buildx rm ${builder_name}
     docker buildx create --name ${builder_name} --platform linux/amd64,linux/arm64 --driver docker-container --use
     docker buildx inspect --bootstrap
     docker buildx ls
@@ -53,20 +59,22 @@ function build_multi_arch() {
     local image_tag=${3:-}
     local image_registry=${4:-dockerhub}
     local image_platform=${5:-linux/arm64/v8,linux/amd64}
-    local builder_name=arch_builder_${image_tag}
 
-    create_docker_builder ${builder_name}
+    create_docker_builder
 
     docker_ops::log_info "image_dir set to: ${image_dir}"
     docker_ops::log_info "image_short_name set to: ${image_short_name}"
     docker_ops::log_info "imagerc_filename set to: ${imagerc_filename}"
+
+    docker_ops::create_imagerc "${image_dir}" "${imagerc_filename}" "${image_short_name}" "${image_tag}" "${image_registry}"
+    docker_ops::source_imagerc  ${image_dir} ${imagerc_filename}
+
     initial_dir="$(pwd)"
     cd "${image_dir}"
     docker_ops::log_info "image_tag set to: ${image_tag}"
-    local image_url="$(docker_ops::make_image_url $image_short_name $image_tag $image_registry)"
 
     set -x -e
-    docker buildx build --platform "${image_platform}"  -t "${image_url}" --push .
+    docker buildx build --platform "${image_platform}"  -t "${KUDU_DOCKER_IMAGE_URL}" --push .
 }
 
 command="$1"
