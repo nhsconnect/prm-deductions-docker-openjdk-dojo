@@ -39,14 +39,11 @@ function create_docker_builder() {
     local builder_name=arch_builder
     docker buildx &> /dev/null || { echo 'Please install and enable buildx - https://docs.docker.com/buildx/working-with-buildx/ ' ; exit 1; }
 
-    if docker buildx inspect arch_builder --bootstrap &> /dev/null
-    then
-      echo "Builder already exists using arch_builder"
-      docker buildx use ${builder_name}
-    else
-      echo "Creating new multi arch builder"
-      docker buildx create --name ${builder_name} --platform linux/amd64,linux/arm64/v8 --use
-    fi
+    echo "Creating new multi arch builder"
+    docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+    docker buildx rm ${builder_name}
+    docker buildx create --name ${builder_name} --platform linux/amd64,linux/arm64 --driver docker-container --use
+    docker buildx inspect --bootstrap
     docker buildx ls
 }
 
