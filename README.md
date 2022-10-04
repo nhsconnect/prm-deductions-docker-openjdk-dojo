@@ -2,12 +2,12 @@
 This is a fork of [Dojo](https://github.com/kudulab/dojo) docker image with Java build tools. 
 Repurposed for the NHSD needs to use LTS version of Java. 
 
-This docker image is based on `openjdk:11-jdk-buster`.
+This docker image is based on `openjdk:17-jdk-buster`.
 Images are published to dockerhub as `nhsdev/openjdk-dojo`.
 
 ## Specification
 This image has installed:
- * openjdk version 11
+ * openjdk version 17
  * OpenJDK Runtime Environment
  * Gradle 7.3.2
  * Apache Maven 3.3.9
