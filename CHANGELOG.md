@@ -1,3 +1,6 @@
+### 2023-Mar-28
+Upgraded gradle to 7.4.1
+
 ### 2022-Oct-04
 Upgraded jdk to 17.0.3
 
