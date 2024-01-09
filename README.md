@@ -2,23 +2,26 @@
 This is a fork of [Dojo](https://github.com/kudulab/dojo) docker image with Java build tools. 
 Repurposed for the NHSD needs to use LTS version of Java. 
 
-This docker image is based on `openjdk:17-jdk-buster`.
+This docker image is based on `openjdk:21-jdk-buster`.
 Images are published to dockerhub as `nhsdev/openjdk-dojo`.
 
 ## Specification
 This image has installed:
- * openjdk version 17
+ * OpenJDK Version 21
  * OpenJDK Runtime Environment
- * Gradle 7.4.1
- * Apache Maven 3.3.9
+ * Gradle 8.5
+ * Apache Maven 3.9.6
 
 ## Usage
 1. Install [Dojo](https://github.com/kudulab/dojo)
 On OSX, you can install with homebrew:
+
 ```
 brew install kudulab/homebrew-dojo-osx/dojo
 ```
+
 A manual install is another option:
+
 ```sh
 version="0.9.0"
 # on Linux:
@@ -28,13 +31,17 @@ wget -O /tmp/dojo https://github.com/kudulab/dojo/releases/download/${version}/d
 chmod +x /tmp/dojo
 mv /tmp/dojo /usr/bin/dojo
 ```
+
 2. Provide a Dojofile:
+
 ```
 DOJO_DOCKER_IMAGE="nhsdev/openjdk-dojo:<commit>"
 ```
+
 3. Create and enter the container by running dojo at the root of project.
    
 Run, example commands:
+
 ```bash
 dojo java -version
 dojo gradle --version
@@ -59,7 +66,7 @@ These files are used inside the docker image:
 
 ## License
 
-opyright 2020 Ewa Czechowska, Tomasz Sętkowski
+Copyright 2020 Ewa Czechowska, Tomasz Sętkowski
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
