@@ -1,3 +1,8 @@
+### 2024-Jan-09
+* Upgraded jdk to 21
+* Upgraded gradle to 8.5
+* Upgraded maven to 3.9.6
+
 ### 2023-Mar-28
 Upgraded gradle to 7.4.1
 
