@@ -1,4 +1,4 @@
-FROM openjdk:17-jdk-buster
+FROM openjdk:21-jdk-buster
 
 ENV TINI_VERSION v0.19.0
 ARG TARGETPLATFORM
@@ -19,7 +19,7 @@ RUN apt-get update && \
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends nano
 
-ENV GRADLE_VERSION 7.4.1
+ENV GRADLE_VERSION 8.5
 ENV GRADLE_HOME /usr/lib/gradle/gradle-${GRADLE_VERSION}
 RUN cd /tmp &&\
   wget https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip &&\
@@ -27,7 +27,7 @@ RUN cd /tmp &&\
   rm gradle-${GRADLE_VERSION}-bin.zip &&\
   ln -s /usr/lib/gradle-${GRADLE_VERSION}/bin/gradle /usr/bin/gradle
 
-ENV MAVEN_VERSION 3.3.9
+ENV MAVEN_VERSION 3.9.6
 RUN cd /tmp/ &&\
   wget --quiet http://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.zip &&\
   unzip apache-maven-${MAVEN_VERSION}-bin.zip &&\
