@@ -9,7 +9,7 @@ RUN case ${TARGETPLATFORM} in \
  && wget -q https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini-static-${TINI_ARCH} -O /tini
 
 # Install common Dojo scripts
-ENV DOJO_VERSION=0.10.3
+ENV DOJO_VERSION=0.13.0
 RUN apt-get update && \
   DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
   sudo git ca-certificates wget make && \
